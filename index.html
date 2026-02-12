@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kabblon Wires & Cables | Bharosa Bhi, Bandhan Bhi</title>
+    <style>
+        :root {
+            --primary: #004d40; /* Deep Green for Eco/Safety */
+            --secondary: #ff6f00; /* Copper/Safety Orange */
+            --accent: #1a237e; /* Industrial Blue */
+            --light: #f4fdf4;
+            --text: #333;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        body { color: var(--text); line-height: 1.6; background-color: var(--light); }
+        
+        /* Navigation */
+        nav {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.5rem 5%; /* Reduced padding slightly to fit logo */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        /* LOGO STYLES */
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 60px; /* Adjusts height automatically */
+            width: auto;
+            object-fit: contain;
+        }
+
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { 
+            text-decoration: none; 
+            color: var(--text); 
+            font-weight: 600; 
+            transition: color 0.3s; 
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--secondary);
+            transition: width 0.3s;
+        }
+        .nav-links a:hover::after, .nav-links a.active-link::after { width: 100%; }
+        .nav-links a:hover { color: var(--secondary); }
+
+        .cta-btn { 
+            background: var(--secondary); 
+            color: var(--white); 
+            padding: 0.5rem 1.5rem; 
+            border-radius: 5px; 
+            text-decoration: none; 
+            font-weight: bold; 
+            transition: transform 0.2s, background 0.2s;
+        }
+        .cta-btn:hover { transform: scale(1.05); background: #e65100; }
+        
+        /* Hero Section */
+        header {
+            background: linear-gradient(rgba(0, 77, 64, 0.9), rgba(0, 77, 64, 0.7)), url('https://placehold.co/1200x600/004d40/ffffff?text=Cable+Manufacturing+Plant');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--white);
+            padding: 8rem 5% 6rem;
+            text-align: center;
+        }
+        
+        header h1 { font-size: 3rem; margin-bottom: 1rem; animation: slideDown 0.8s ease-out; }
+        header p { font-size: 1.2rem; margin-bottom: 2rem; max-width: 800px; margin-left: auto; margin-right: auto; animation: slideUp 0.8s ease-out; }
+        .tagline { font-style: italic; color: var(--secondary); font-weight: bold; margin-bottom: 1rem; display: block; animation: fadeIn 1.2s ease-in; }
+
+        @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Features Grid */
+        .features { padding: 6rem 5%; background: var(--white); }
+        .section-title { text-align: center; font-size: 2.2rem; color: var(--primary); margin-bottom: 3rem; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+        
+        .feature-card {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-bottom: 4px solid var(--secondary);
+        }
+        .feature-card:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary); }
+
+        /* Product Interactive Section */
+        .products { padding: 6rem 5%; background: #e8f5e9; }
+        
+        /* Tabs */
+        .tabs { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .tab-btn {
+            padding: 12px 25px;
+            border: none;
+            background: var(--white);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            color: var(--primary);
+        }
+        .tab-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+        .tab-btn.active { background: var(--primary); color: var(--white); transform: scale(1.05); }
+        
+        .product-content { display: none; background: var(--white); padding: 2rem; border-radius: 10px; box-shadow: var(--shadow); opacity: 0; transform: translateY(10px); transition: opacity 0.4s, transform 0.4s; }
+        .product-content.active { display: block; opacity: 1; transform: translateY(0); }
+        
+        .product-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; }
+        .product-info h3 { color: var(--secondary); font-size: 1.8rem; }
+        .spec-badge { background: var(--accent); color: white; padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; margin-right: 5px; }
+
+        /* Tables */
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.9rem; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: var(--primary); color: white; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        tr:hover { background-color: #e0f2f1; transition: background-color 0.2s; }
+
+        /* Quality Section */
+        .quality { padding: 6rem 5%; display: flex; flex-wrap: wrap; align-items: center; gap: 4rem; background: var(--white); }
+        .quality-text { flex: 1; min-width: 300px; }
+        .quality-img { flex: 1; min-width: 300px; height: 350px; background: #ddd; border-radius: 10px; background: url('https://placehold.co/600x400/1a237e/ffffff?text=In-House+Laboratory+Testing') center/cover; box-shadow: var(--shadow); transition: transform 0.3s; }
+        .quality-img:hover { transform: scale(1.02); }
+
+        .quality-list { list-style: none; margin-top: 1.5rem; }
+        .quality-list li { margin-bottom: 0.8rem; display: flex; align-items: center; font-size: 1.1rem; }
+        .quality-list li::before { content: "✓"; color: var(--secondary); font-weight: 900; margin-right: 12px; font-size: 1.2rem; }
+
+        /* Footer */
+        footer { background: var(--accent); color: white; padding: 4rem 5% 2rem; text-align: center; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem; text-align: left; }
+        .footer-col h4 { color: var(--secondary); margin-bottom: 1rem; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 10px; display: inline-block; }
+        .footer-col a { color: #ccc; text-decoration: none; display: block; margin-bottom: 0.5rem; transition: color 0.3s; }
+        .footer-col a:hover { color: var(--secondary); padding-left: 5px; }
+        
+        /* Back to Top Button */
+        #scrollTopBtn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            background-color: var(--secondary);
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        #scrollTopBtn:hover { background-color: #e65100; transform: translateY(-5px); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            header h1 { font-size: 2rem; }
+            .tabs { flex-direction: column; }
+            .tab-btn { width: 100%; }
+            .quality { gap: 2rem; }
+            .logo-img { height: 40px; } /* Smaller logo for mobile */
+        }
+    </style>
+</head>
+<body>
+
+    <button onclick="topFunction()" id="scrollTopBtn" title="Go to top">↑</button>
+
+    <nav id="navbar">
+        <div class="logo-container">
+            <img src="kabblon-logo.png" alt="KABBLON Logo" class="logo-img">
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home" class="nav-link">Home</a></li>
+            <li><a href="#features" class="nav-link">Features</a></li>
+            <li><a href="#products" class="nav-link">Products</a></li>
+            <li><a href="#quality" class="nav-link">Quality</a></li>
+        </ul>
+        <a href="#contact" class="cta-btn">Get Quote</a>
+    </nav>
+
+    <header id="home">
+        <span class="tagline">Bharosa Bhi, Bandhan Bhi</span>
+        <h1>Wires That Keep Your Home Safe</h1>
+        <p>Premium 99.97% Pure Copper wires with Flame Retardant technology. The perfect balance of Safety, Durability, and Energy Savings.</p>
+        <div style="margin-top: 2rem;">
+            <a href="#products" class="cta-btn" style="background: white; color: var(--primary);">View Products</a>
+        </div>
+    </header>
+
+    <section id="features" class="features">
+        <h2 class="section-title">Why Choose Kabblon?</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>99.97% Pure Copper</h3>
+                <p>High conductivity (102% IACS) ensuring low resistance and maximum energy savings.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>Flame Retardant</h3>
+                <p>Special insulation protects against short circuits, overheating, and electrical hazards.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>100% Bunched</h3>
+                <p>Better flexibility for easy wiring and smooth surface for pulling through pipes.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🇮🇳</div>
+                <h3>Make In India</h3>
+                <p>Manufactured locally with strict quality standards and in-house laboratory testing.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="products" class="products">
+        <h2 class="section-title">Product Catalog</h2>
+        
+        <div class="tabs">
+            <button class="tab-btn active" onclick="openTab(event, 'fr-cable')">FR House Wire</button>
+            <button class="tab-btn" onclick="openTab(event, 'frlsh-cable')">FRLSH Cable</button>
+            <button class="tab-btn" onclick="openTab(event, 'industrial')">Twisted Industrial</button>
+            <button class="tab-btn" onclick="openTab(event, 'submersible')">Submersible Flat</button>
+        </div>
+
+        <div id="fr-cable" class="product-content active">
+            <div class="product-header">
+                <div class="product-info">
+                    <h3>FR (Flame Retardant) Cables</h3>
+                    <p>Ideal for Domestic & Residential projects. Withstands heat up to 70°C.</p>
+                    <div style="margin-top:10px;">
+                        <span class="spec-badge">IS 694:2010</span>
+                        <span class="spec-badge">1100V Grade</span>
+                    </div>
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Size (sq.mm)</th>
+                            <th>Strands (No./mm)</th>
+                            <th>Max Resistance (Ohms/km)</th>
+                            <th>Current Capacity (Amps) - Conduit</th>
+                            <th>Current Capacity (Amps) - Surface</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>0.75</td><td>24/0.2</td><td>26.0</td><td>6</td><td>7</td></tr>
+                        <tr><td>1.0</td><td>14/0.3</td><td>18.10</td><td>11</td><td>12</td></tr>
+                        <tr><td>1.5</td><td>22/0.3</td><td>12.10</td><td>13</td><td>16</td></tr>
+                        <tr><td>2.5</td><td>36/0.3</td><td>7.41</td><td>18</td><td>22</td></tr>
+                        <tr><td>4.0</td><td>56/0.3</td><td>4.95</td><td>24</td><td>29</td></tr>
+                        <tr><td>6.0</td><td>84/0.3</td><td>3.30</td><td>31</td><td>37</td></tr>
+                        <tr><td>10.0</td><td>80/0.4</td><td>1.91</td><td>42</td><td>51</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="frlsh-cable" class="product-content">
+            <div class="product-header">
+                <div class="product-info">
+                    <h3>FRLSH (Low Smoke Low Halogen)</h3>
+                    <p>Designed for fire-prone areas like hospitals, malls, and schools. Non-toxic smoke.</p>
+                    <div style="margin-top:10px;">
+                        <span class="spec-badge">Low Smoke</span>
+                        <span class="spec-badge">IS 694:2010</span>
+                    </div>
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Size (sq.mm)</th>
+                            <th>Strands</th>
+                            <th>Max Resistance (Ohms/km)</th>
+                            <th>Current Capacity (Amps) - Conduit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1.0</td><td>32/0.2</td><td>19.50</td><td>11</td></tr>
+                        <tr><td>1.5</td><td>30/0.25</td><td>13.30</td><td>13</td></tr>
+                        <tr><td>2.5</td><td>48/0.25</td><td>7.98</td><td>18</td></tr>
+                        <tr><td>4.0</td><td>56/0.3</td><td>4.95</td><td>24</td></tr>
+                        <tr><td>6.0</td><td>84/0.3</td><td>3.30</td><td>31</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="industrial" class="product-content">
+            <div class="product-header">
+                <div class="product-info">
+                    <h3>Twisted FR Industrial Cables</h3>
+                    <p>Highly twisted & compacted strands. No loose strands, no sparks.</p>
+                    <div style="margin-top:10px;">
+                        <span class="spec-badge">Industrial Grade</span>
+                        <span class="spec-badge">No Spark</span>
+                    </div>
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Size (sq.mm)</th>
+                            <th>Strands</th>
+                            <th>Approx Overall Dia (mm)</th>
+                            <th>Current Capacity (Amps)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1.0</td><td>37/0.18</td><td>2.60</td><td>11</td></tr>
+                        <tr><td>1.5</td><td>37/0.22</td><td>3.00</td><td>13</td></tr>
+                        <tr><td>2.5</td><td>61/0.22</td><td>3.60</td><td>18</td></tr>
+                        <tr><td>4.0</td><td>61/0.28</td><td>4.00</td><td>24</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+         <div id="submersible" class="product-content">
+            <div class="product-header">
+                <div class="product-info">
+                    <h3>3 Core Flat Submersible Cables</h3>
+                    <p>Heavy duty application for submersible pumps. Water and abrasion resistant.</p>
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Size (sq.mm)</th>
+                            <th>Strands</th>
+                            <th>Dimensions (W x H mm)</th>
+                            <th>Current Capacity @ 40°C</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1.5</td><td>30/0.25</td><td>10.3 x 4.7</td><td>16</td></tr>
+                        <tr><td>2.5</td><td>48/0.25</td><td>12.3 x 5.5</td><td>22</td></tr>
+                        <tr><td>4.0</td><td>56/0.3</td><td>14.1 x 6.2</td><td>29</td></tr>
+                        <tr><td>6.0</td><td>84/0.3</td><td>16.2 x 7.0</td><td>37</td></tr>
+                        <tr><td>10.0</td><td>80/0.4</td><td>20.9 x 8.9</td><td>51</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="quality" class="quality">
+        <div class="quality-text">
+            <h2 class="section-title" style="text-align: left;">In-House Laboratory</h2>
+            <p>We combine Quality, Safety, and Affordability. Every batch of wires is tested in our modern, well-equipped laboratory before dispatch.</p>
+            <ul class="quality-list">
+                <li>High Voltage Test</li>
+                <li>Conductor Resistance Test</li>
+                <li>Insulation Thickness & Tensile Strength</li>
+                <li>Flammability & Fire-Retardant Test</li>
+                <li>Spark Test for Insulation Defects</li>
+            </ul>
+        </div>
+        <div class="quality-img"></div>
+    </section>
+
+    <footer id="contact">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div style="font-size: 1.8rem; font-weight: 800; color: white; display: flex; align-items: center; gap: 10px; margin-bottom: 1rem;">
+                    <img src="dark-logo.png" alt="KABBLON Logo" class="logo-img">
+                </div>
+                <p>Wires that keep your home safe, the way you keep loved ones safe.</p>
+            </div>
+            <div class="footer-col contact-info">
+                <h4>Contact Us</h4>
+                <p>📞 +91-9313780662</p>
+                <p>✉️ ribhavent2025@gmail.com</p>
+                <p>📍 Made in India</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <a href="#products">FR Cables</a>
+                <a href="#products">FRLSH Cables</a>
+                <a href="#products">Submersible Cables</a>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 1rem;">
+            &copy; 2025 Kabblon Wires. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Tab Functionality
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("product-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+                tabcontent[i].style.display = "none";
+            }
+            
+            tablinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            
+            var selectedTab = document.getElementById(tabName);
+            selectedTab.style.display = "block";
+            setTimeout(() => {
+                selectedTab.classList.add("active");
+            }, 10);
+            
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Scroll to Top Button Visibility
+        var mybutton = document.getElementById("scrollTopBtn");
+
+        window.onscroll = function() {scrollFunction(); activeMenuFunction()};
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+
+        // Active Menu Highlighting
+        function activeMenuFunction() {
+            const sections = document.querySelectorAll("section, header");
+            const navLi = document.querySelectorAll(".nav-link");
+            
+            let current = "";
+            sections.forEach((section) => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 150) {
+                    current = section.getAttribute("id");
+                }
+            });
+
+            navLi.forEach((li) => {
+                li.classList.remove("active-link");
+                if (li.getAttribute("href").includes(current)) {
+                    li.classList.add("active-link");
+                }
+            });
+        }
+    </script>
+</body>
+</html>
